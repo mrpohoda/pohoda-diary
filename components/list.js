@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 import {
-  AppRegistry,
   StyleSheet,
   Text,
-  TextInput,
   View,
   ListView
 } from 'react-native';
+import ListItem from './ListItem.js';
+const styles = require('../styles.js');
 
 
 var DiaryList = React.createClass({
+
   getInitialState: function() {
     return {
-      items: []
+      items: [],
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      })
     }
   },
 
@@ -30,8 +34,8 @@ var DiaryList = React.createClass({
       });
 
       this.setState({
-        // dataSource: this.state.dataSource.cloneWithRows(items)
-        items: items
+        dataSource: this.state.dataSource.cloneWithRows(items)
+        // items: items
       });
 
     });
@@ -43,11 +47,18 @@ var DiaryList = React.createClass({
 
   _renderItem: function(item) {
     console.log('ITEM:', item);
+    // return (
+    //   <View key={ item._key }>
+    //     <Text style={styles.date}>{ item.date }</Text>
+    //     <Text style={styles.text}>{ item.text }</Text>
+    //   </View>
+    // );
+
+    const onPress = () => {
+      console.log('onPress...', item);
+    }
     return (
-      <View key={ item._key }>
-        <Text style={styles.date}>{ item.date }</Text>
-        <Text style={styles.text}>{ item.text }</Text>
-      </View>
+      <ListItem item={item} onPress={onPress} />
     );
   },
 
@@ -56,16 +67,15 @@ var DiaryList = React.createClass({
   },
 
   render: function() {
-    return <View>{ this.state.items.map(this._renderItem) }</View>;
-  }
-});
-
-const styles = StyleSheet.create({
-  date: {
-    fontWeight: 'bold'
-  },
-  text: {
-    marginBottom: 10
+    return (
+      // <View>{ this.state.items.map(this._renderItem) }</View>
+      <View style={styles.container}>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this._renderItem}
+          style={styles.listview}/>
+      </View>
+    );
   }
 });
 
