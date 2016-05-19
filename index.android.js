@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import Firebase from 'firebase';
 
-import DiaryForm from './components/form.js';
-import DiaryList from './components/list.js';
+import DiaryForm from './components/Form';
+import DiaryList from './components/List';
 
 const FirebaseUrl = 'https://pohodadiary.firebaseio.com/';
 const firebaseRef = new Firebase(FirebaseUrl + 'entries/');

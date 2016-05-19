@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import {
-  StyleSheet,
-  Text,
   View,
   ListView
 } from 'react-native';
 import ListItem from './ListItem.js';
 const styles = require('../styles.js');
-
 
 var DiaryList = React.createClass({
 
@@ -47,12 +44,6 @@ var DiaryList = React.createClass({
 
   _renderItem: function(item) {
     console.log('ITEM:', item);
-    // return (
-    //   <View key={ item._key }>
-    //     <Text style={styles.date}>{ item.date }</Text>
-    //     <Text style={styles.text}>{ item.text }</Text>
-    //   </View>
-    // );
 
     const onPress = () => {
       console.log('onPress...', item);
