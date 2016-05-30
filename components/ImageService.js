@@ -77,6 +77,8 @@ class ImageService extends Component {
     formdata.append('signature', signature);
     // formdata.append('folder', 'pohoda-diary');
     xhr.send(formdata);
+
+    return xhr;
   }
 }
 

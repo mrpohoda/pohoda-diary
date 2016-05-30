@@ -18,7 +18,7 @@ var DiaryList = React.createClass({
   },
 
   listenForItems: function(itemsRef) {
-    itemsRef.on('value', (snap) => {
+    itemsRef.orderByChild('dateDesc').on('value', (snap) => {
 
       // get children as an array
       var items = [];
@@ -26,6 +26,7 @@ var DiaryList = React.createClass({
         items.push({
           date: child.val().date,
           text: child.val().text,
+          images: child.val().images,
           _key: child.key()
         });
       });

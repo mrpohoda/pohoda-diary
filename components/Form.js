@@ -20,8 +20,17 @@ var Form = React.createClass({
   getInitialState: function() {
     return {
       date: new Date(),
-      text: ''
+      text: '',
+      images: []
     }
+  },
+
+  resetState: function() {
+    this.setState({
+      text: '',
+      images: []
+    });
+    this._textInput.setNativeProps({text: ''});
   },
 
   _save: function() {
@@ -29,8 +38,12 @@ var Form = React.createClass({
     var uniqId = date + '-' + new Date().getTime();
     this.props.firebaseRef.child(uniqId).set({
       date: date,
-      text: this.state.text
+      dateDesc: 0 - moment(this.state.date).valueOf(),  // negative timestamp for descending sort
+      text: this.state.text,
+      images: this.state.images
     });
+
+    this.resetState();
   },
 
   _chooseImage: function() {
@@ -40,11 +53,31 @@ var Form = React.createClass({
       const source = {uri: response.uri, isStatic: true};
 
       console.log('Chosen image: ', response);
-      self.setState({
-        avatarSource: source
-      });
 
-      is.uploadImage(response.uri, response.fileName);
+      var newArray = self.state.images.slice();
+      newArray.push(response.uri);
+      self.setState({images: newArray});
+      // self.setState({
+      //   avatarSource: source
+      // });
+
+      var xhr = is.uploadImage(response.uri, response.fileName);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          var image = JSON.parse(xhr.responseText);
+          console.log(image);
+          if (image.url) {
+            var newArray = self.state.images.slice();
+
+            var index = newArray.indexOf(response.uri);
+            if (index !== -1) {
+              newArray[index] = image.url;
+            }
+
+            self.setState({images: newArray});
+          }
+        }
+      }
     })
   },
 
@@ -72,12 +105,16 @@ var Form = React.createClass({
           maxNumberOfLines={50}
           multiline
           numberOfLines={1}
+          ref={component => this._textInput = component}
           onChangeText={(text) => this.setState({text})}
         />
         <TouchableHighlight onPress={this._chooseImage}>
           <Text>Add photo</Text>
         </TouchableHighlight>
-        <Image source={this.state.avatarSource} style={styles.uploadAvatar} />
+        {this.state.images.map(function(image) {
+          return <Image key={image} source={{uri: image}} style={styles.uploadAvatar} />
+          // <Image source={this.state.avatarSource} style={styles.uploadAvatar} />
+        })}
       </View>
     );
   }

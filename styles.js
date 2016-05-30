@@ -46,8 +46,14 @@ var styles = StyleSheet.create({
     marginBottom: 10
   },
   uploadAvatar: {
+    marginBottom: 5,
+    marginRight: 5,
     width: 100,
     height: 100
+  },
+  images: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }
 })
 
