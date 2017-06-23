@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
-  View
+  View,
+  StatusBar
 } from 'react-native';
 import Firebase from 'firebase';
 
@@ -17,7 +18,8 @@ const firebaseRef = new Firebase(FirebaseUrl + 'entries/');
 class PohodaDiary extends Component {
   render() {
     return (
-      <View style={styles.container}>
+      <View style={styles.containerIOS}>
+        <StatusBar backgroundColor="blue" barStyle="dark-content" />
         <DiaryForm firebaseRef={firebaseRef} />
         <DiaryList firebaseRef={firebaseRef} />
       </View>

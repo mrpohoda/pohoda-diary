@@ -8,6 +8,10 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  containerIOS: {
+    flex: 1,
+    paddingTop: 20,
+  },
   listview: {
     flex: 1,
   },
