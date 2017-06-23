@@ -6,6 +6,8 @@ import {
 import ListItem from './ListItem.js';
 const styles = require('../styles.js');
 
+import db from '../services/db';
+
 var DiaryList = React.createClass({
 
   getInitialState: function() {
@@ -17,30 +19,12 @@ var DiaryList = React.createClass({
     }
   },
 
-  listenForItems: function(itemsRef) {
-    itemsRef.orderByChild('dateDesc').on('value', (snap) => {
-
-      // get children as an array
-      var items = [];
-      snap.forEach((child) => {
-        items.push({
-          date: child.val().date,
-          text: child.val().text,
-          images: child.val().images,
-          _key: child.key()
-        });
-      });
-
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(items)
-        // items: items
-      });
-
-    });
-  },
-
   componentDidMount: function() {
-    this.listenForItems(this.props.firebaseRef);
+    db.fetchEntries(entries => {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(entries)
+      });
+    });
   },
 
   _renderItem: function(item) {

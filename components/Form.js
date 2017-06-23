@@ -6,10 +6,11 @@ import {
   TouchableHighlight,
   View
 } from 'react-native';
-import moment from 'moment';
 import DatePicker from 'react-native-datepicker';
 import ImageService from './ImageService';
 // import Cloudinary from 'cloudinary';
+
+import db from '../services/db';
 
 const styles = require('../styles.js');
 
@@ -34,13 +35,11 @@ var Form = React.createClass({
   },
 
   _save: function() {
-    var date = moment(this.state.date).format('YYYY-MM-DD');
-    var uniqId = date + '-' + new Date().getTime();
-    this.props.firebaseRef.child(uniqId).set({
-      date: date,
-      dateDesc: 0 - moment(this.state.date).valueOf(),  // negative timestamp for descending sort
-      text: this.state.text,
-      images: this.state.images
+    const state = this.state;
+    db.createEntry({
+      date: state.date,
+      text: state.text,
+      images: state.images
     });
 
     this.resetState();
