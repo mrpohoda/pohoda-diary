@@ -11,9 +11,9 @@
     "crypto-js": "3.1.9-1",
     "firebase": "2.4.2",
     "moment": "2.17.1",
-    "react": "15.4.1",
-    "react-native": "0.39.2",
-    "react-native-datepicker": "1.4.3",
-    "react-native-image-picker": "0.24.1"
+    "react": "15.6.1",
+    "react-native": "0.45.1",
+    "react-native-datepicker": "1.6.0",
+    "react-native-image-picker": "0.26.3"
   }
 }
